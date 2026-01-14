@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import axios from "axios";
 import "./App.css";
+import Upload from "./components/Upload/Upload";
 
 interface Data {
   data: [];
@@ -16,7 +17,11 @@ function App() {
     });
   }, []);
 
-  return <></>;
+  return (
+    <>
+      <Upload></Upload>
+    </>
+  );
 }
 
 export default App;

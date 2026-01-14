@@ -1,5 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, File, UploadFile, FastAPI
 from pydantic import BaseModel
+from typing import Annotated
+import pandas as pd
 
 router = APIRouter(prefix="/data",tags=["data"])
 
@@ -8,6 +10,7 @@ data = [1,2,3]
 #WICHTIG: BASEMODEL
 class data_object(BaseModel):
     value: int
+
 
 @router.get("/")
 def get_data():
@@ -23,6 +26,10 @@ def get_specific_data(index:int):
 @router.post("/")
 def create_data(payload:data_object):
     data.append(payload.value)
+    #Router for CSV Upload
+@router.post("/csv/")
+async def create_file(file: UploadFile):
+    return {"filename":file.filename}
     # DELETE /data 
 @router.delete("/{index}",status_code=204) 
 def delete_data(index:int): 
