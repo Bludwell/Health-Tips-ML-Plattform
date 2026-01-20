@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, File, UploadFile, FastAPI
 from pydantic import BaseModel
 from typing import Annotated
-from sqlmodel import Field, Session, SQLModel, create_engine
+from sqlmodel import Field, Session, SQLModel, create_engine,select
 import pandas as pd
 import datetime
 
@@ -17,7 +17,7 @@ engine = create_engine("sqlite:///health.db")
 SQLModel.metadata.create_all(engine)
 
 #List
-data = [1,2,3]
+#data = [1,2,3]
 #WICHTIG: BASEMODEL
 class data_object(BaseModel):
     value: int
@@ -25,7 +25,10 @@ class data_object(BaseModel):
 
 @router.get("/")
 def get_data():
-    return({"data":data})
+    with Session(engine) as session:
+        statement = select(Data)
+        results = session.exec(statement).all()
+        return results
 
 @router.get("/{index}")
 def get_specific_data(index:int):
