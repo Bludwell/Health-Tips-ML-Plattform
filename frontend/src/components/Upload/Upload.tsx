@@ -31,7 +31,12 @@ const Upload = () => {
   return (
     <div>
       <div className="input-group">
-        <input type="file" id="file" onChange={handleFileChange} />
+        <input
+          type="file"
+          id="file"
+          onChange={handleFileChange}
+          accept=".csv"
+        />
       </div>
       {file && (
         <section>

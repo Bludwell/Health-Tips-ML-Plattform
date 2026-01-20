@@ -4,6 +4,7 @@ import viteLogo from "/vite.svg";
 import axios from "axios";
 import "./App.css";
 import Upload from "./components/Upload/Upload";
+import Form from "./components/Form/Form";
 
 interface Data {
   data: [];
@@ -19,7 +20,7 @@ function App() {
 
   return (
     <>
-      <Upload></Upload>
+      <Form />
     </>
   );
 }
