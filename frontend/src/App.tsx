@@ -5,22 +5,15 @@ import axios from "axios";
 import "./App.css";
 import Upload from "./components/Upload/Upload";
 import Form from "./components/Form/Form";
-
-interface Data {
-  data: [];
-}
+import Overview from "./components/Overview/Overview";
+import NavBar from "./components/NavBar/NavBar";
 
 function App() {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    axios.get<Data>("http://127.0.0.1:8000/data").then((res) => {
-      console.log(res.data.data);
-    });
-  }, []);
-
   return (
     <>
+      <NavBar></NavBar>
       <Form />
+      <Overview></Overview>
     </>
   );
 }
