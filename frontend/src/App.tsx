@@ -14,6 +14,7 @@ function App() {
     <>
       <NavBar></NavBar>
       <UserData></UserData>
+      <Overview></Overview>
     </>
   );
 }

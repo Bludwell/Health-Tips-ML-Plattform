@@ -8,6 +8,15 @@ interface ActivityData {
   date: string;
   steps: number;
 }
+function compare(a: ActivityData, b: ActivityData) {
+  if (a.date < b.date) {
+    return -1;
+  }
+  if (a.date > b.date) {
+    return 1;
+  }
+  return 0;
+}
 
 const Overview = () => {
   const [data, setData] = useState<ActivityData[]>([]);
@@ -17,6 +26,7 @@ const Overview = () => {
       setData(res.data);
     });
   }, []);
+  data.sort(compare);
   console.log(data);
   return (
     <>
