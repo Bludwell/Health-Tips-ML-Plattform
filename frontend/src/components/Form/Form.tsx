@@ -7,12 +7,11 @@ const Form = () => {
 
   const onSubmit = async (data: FieldValues) => {
     try {
-      const res = await axios.post("http://127.0.0.1:8000/data/", {
+      axios.post("http://127.0.0.1:8000/data/", {
         sleep: Number(data.sleep_hours),
         steps: Number(data.steps),
         date: data.date,
       });
-      console.log(res.data);
     } catch (err) {
       console.error(err);
     }

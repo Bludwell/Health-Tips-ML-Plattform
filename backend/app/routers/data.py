@@ -40,8 +40,15 @@ def get_specific_data(index:int):
 @router.post("/")
 def create_data(payload:Data):
     with Session(engine) as session:
-        session.add(payload)
-        session.commit()
+        #Platzhalter ID = 1
+        results = session.exec(select(Data).where(Data.id == 1).where(Data.date == payload.date))
+        #HIER LOGIK NOCH FIXEN!
+        if results.all:
+            session.add(payload)
+            session.commit()
+        else:
+            raise HTTPException(409,"Conflict")
+
     #Router for CSV Upload
 @router.post("/csv/")
 async def create_file(file: UploadFile):
