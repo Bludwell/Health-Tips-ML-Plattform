@@ -18,7 +18,7 @@ const Form = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} action={"#"}>
       <div>
         <label htmlFor="sleep_hours">Schlaf in Stunden </label>
         <input

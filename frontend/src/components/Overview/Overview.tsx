@@ -30,7 +30,7 @@ const Overview = () => {
         ]}
         series={[
           {
-            label: "steps",
+            label: "sleep hours",
             data: data.map((d) => d.sleep),
           },
         ]}
