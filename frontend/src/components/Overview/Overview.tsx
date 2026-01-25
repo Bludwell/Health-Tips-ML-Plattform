@@ -1,35 +1,12 @@
 import { BarChart, LineChart } from "@mui/x-charts";
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-
-interface ActivityData {
-  id: number;
-  sleep: number;
-  date: string;
-  steps: number;
-}
-function compare(a: ActivityData, b: ActivityData) {
-  if (a.date < b.date) {
-    return -1;
-  }
-  if (a.date > b.date) {
-    return 1;
-  }
-  return 0;
-}
+import useGames from "../../hooks/useActivityData";
 
 const Overview = () => {
-  const [data, setData] = useState<ActivityData[]>([]);
-  useEffect(() => {
-    axios.get<ActivityData[]>("http://127.0.0.1:8000/data/").then((res) => {
-      console.log("API RESPONSE:", res.data);
-      setData(res.data);
-    });
-  }, []);
-  data.sort(compare);
+  const { data, error } = useGames();
   console.log(data);
   return (
     <>
+      {error && <p>{error}</p>}
       <BarChart
         xAxis={[
           {

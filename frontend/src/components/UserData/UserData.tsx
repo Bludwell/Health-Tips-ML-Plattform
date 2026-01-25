@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -6,38 +5,14 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
-
-interface ActivityData {
-  id: number;
-  steps: number;
-  sleep: number;
-  date: string;
-}
-
-function compare(a: ActivityData, b: ActivityData) {
-  if (a.date < b.date) {
-    return -1;
-  }
-  if (a.date > b.date) {
-    return 1;
-  }
-  return 0;
-}
+import useActivityData from "../../hooks/useActivityData";
 
 const UserData = () => {
   //this should be API response data
-  const [data, setData] = useState<ActivityData[]>([]);
-  useEffect(() => {
-    axios.get<ActivityData[]>("http://127.0.0.1:8000/data/").then((res) => {
-      console.log(res.data);
-      setData(res.data);
-    });
-  }, []);
-  data.sort(compare);
+  const { data, error } = useActivityData();
   return (
     <>
-      {" "}
+      {error && <p>{error}</p>}{" "}
       <TableContainer
         component={Paper}
         sx={{
