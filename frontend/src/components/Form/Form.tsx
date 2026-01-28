@@ -1,20 +1,21 @@
 import axios from "axios";
-import React, { useEffect } from "react";
 import { useForm, type FieldValues } from "react-hook-form";
+import React, { useState } from "react";
 
 const Form = () => {
   const { register, handleSubmit } = useForm();
+  const [error, setError] = useState("");
 
   const onSubmit = async (data: FieldValues) => {
-    try {
-      axios.post("http://127.0.0.1:8000/data/", {
+    axios
+      .post("http://localhost:8000/data/", {
+        user_id: 1, //ERSETZEN!
         sleep: Number(data.sleep_hours),
         steps: Number(data.steps),
         date: data.date,
-      });
-    } catch (err) {
-      console.error(err);
-    }
+      })
+      .then(() => window.location.reload())
+      .catch((err) => setError(err));
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} action={"#"}>
@@ -44,6 +45,7 @@ const Form = () => {
         <input {...register("date")} type="date" id="date" required />
       </div>
       <button type="submit">submit</button>
+      {error && <p>{error.toString()}</p>}
     </form>
   );
 };

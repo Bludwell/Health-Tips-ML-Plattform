@@ -57,3 +57,4 @@ archive.zip
 .codspeed
 *.db
 *.txt
+*.ps1

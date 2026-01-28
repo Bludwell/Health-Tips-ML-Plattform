@@ -1,19 +1,23 @@
 from fastapi import APIRouter, HTTPException, File, UploadFile, FastAPI
 from pydantic import BaseModel
 from typing import Annotated
-from sqlmodel import Field, Session, SQLModel, create_engine,select
+from sqlmodel import Field, Session, SQLModel, create_engine,select,UniqueConstraint
 import pandas as pd
 import datetime
 
 router = APIRouter(prefix="/data",tags=["data"])
 
 class Data(SQLModel, table = True):
+    __table_args__ = (
+    UniqueConstraint("user_id", "date", name="no_two_dates_per_id"),
+    )
     id: int | None = Field(default=None, primary_key=True)
+    user_id: int = 1 #HIER PLATZHALTER ERSETZEN!
     sleep: float | None = None
     steps: int | None = None
     date: str | None = None
 
-engine = create_engine("sqlite:///health.db")
+engine = create_engine("sqlite:///health.db",echo=True)
 SQLModel.metadata.create_all(engine)
 
 #List
@@ -40,13 +44,11 @@ def get_specific_data(index:int):
 @router.post("/")
 def create_data(payload:Data):
     with Session(engine) as session:
-        #Platzhalter ID = 1
-        results = session.exec(select(Data).where(Data.id == 1).where(Data.date == payload.date))
         #HIER LOGIK NOCH FIXEN!
-        if results.all:
+        try:
             session.add(payload)
             session.commit()
-        else:
+        except:
             raise HTTPException(409,"Conflict")
 
     #Router for CSV Upload

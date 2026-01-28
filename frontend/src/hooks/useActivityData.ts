@@ -20,7 +20,7 @@ const useActivityData = () => {
 const [data, setData] = useState<ActivityData[]>([]);
 const [error, setError] = useState("")
   useEffect(() => {
-    axios.get<ActivityData[]>("http://127.0.0.1:8000/data/").then((res) => {
+    axios.get<ActivityData[]>("http://localhost:8000/data/").then((res) => {
       console.log("API RESPONSE:", res.data);
       setData(res.data);
     }).catch((err) => {setError(err)});
