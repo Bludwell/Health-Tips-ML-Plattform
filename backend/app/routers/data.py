@@ -51,16 +51,18 @@ def create_data(payload:Data):
         except:
             raise HTTPException(409,"Conflict")
 
+@router.delete("/{id}")
+def delete_data(id):
+    with Session(engine) as session:
+        statement = select(Data).where(Data.id == id)
+        results = session.exec(statement)
+        data = results.one()
+        session.delete(data)
+        session.commit()
+
     #Router for CSV Upload
 @router.post("/csv/")
 async def create_file(file: UploadFile):
     df = pd.read_csv(file.file)
     print(df.head())
     return {"filename":file.filename, "file_type":file.content_type}
-    # DELETE /data 
-@router.delete("/{index}",status_code=204) 
-def delete_data(index:int): 
-    if index >= 0 and index < len(data): 
-        data.pop(index)
-    else:
-        raise HTTPException(404,"not found")

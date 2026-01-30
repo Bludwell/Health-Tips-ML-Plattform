@@ -7,10 +7,8 @@ import UserData from "./components/UserData/UserData";
 function App() {
   return (
     <>
-      <NavBar></NavBar>
-      <UserData></UserData>
-      <Overview></Overview>
-      <Form></Form>
+      <NavBar />
+      <h1>main</h1>
     </>
   );
 }

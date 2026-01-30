@@ -1,11 +1,11 @@
-FROM python:3.13
+FROM python:3.12-slim
 
-WORKDIR /code
+WORKDIR /app
 
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-COPY . .
+#COPY . .
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload","--reload-dir","/app/app"]

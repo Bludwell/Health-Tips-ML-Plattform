@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { Activity, useEffect, useState } from "react";
 
-interface ActivityData {
+export interface ActivityData {
   id: number;
   sleep: number;
   date: string;
