@@ -6,12 +6,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Overview from "./components/Overview/Overview.tsx";
 import UserData from "./components/UserData/UserData.tsx";
 import Form from "./components/Form/Form.tsx";
+import Login from "./components/Login/Login.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
   { path: "/Overview", element: <Overview /> },
   { path: "/UserData", element: <UserData /> },
   { path: "/Form", element: <Form /> },
+  { path: "/Login", element: <Login /> },
 ]);
 
 createRoot(document.getElementById("root")!).render(

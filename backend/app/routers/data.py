@@ -3,7 +3,6 @@ from pydantic import BaseModel
 from typing import Annotated
 from sqlmodel import Field, Session, SQLModel, create_engine,select,UniqueConstraint
 import pandas as pd
-import datetime
 
 router = APIRouter(prefix="/data",tags=["data"])
 

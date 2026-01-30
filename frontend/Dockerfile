@@ -7,7 +7,7 @@ COPY tsconfig*.json ./
 
 RUN npm install
 
-COPY . .
+#COPY . .
 
 EXPOSE 5173
 

@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import data
+from .routers import users
 
 
 app = FastAPI()
@@ -16,6 +17,7 @@ app.add_middleware(
     allow_headers=["*"]
 )
 app.include_router(data.router)
+app.include_router(users.router)
 
 @app.get("/")
 async def root():
