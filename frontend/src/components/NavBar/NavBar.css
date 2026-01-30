@@ -1,0 +1,15 @@
+.link{
+    color: inherit;
+    text-decoration:none; 
+
+}
+.link:hover{
+        color:#ea9a97; 
+    text-decoration:none; 
+    cursor:pointer; 
+}
+.links{
+    width: 10rem;
+    display: flex;
+    justify-content: space-around;
+}

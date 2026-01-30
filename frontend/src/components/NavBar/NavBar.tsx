@@ -7,11 +7,10 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import "./NavBar.css";
 
 const pages = ["Overview", "UserData", "Form"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
@@ -127,9 +126,14 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-          <a href="/login" style={{ textDecoration: "none" }}>
-            LogIn
-          </a>
+          <div className="links">
+            <a href="/Register" className="link">
+              Register
+            </a>
+            <a href="/Login" className="link">
+              LogIn
+            </a>
+          </div>
           {/*<Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

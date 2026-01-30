@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Overview from "./components/Overview/Overview.tsx";
 import UserData from "./components/UserData/UserData.tsx";
 import Form from "./components/Form/Form.tsx";
+import Register from "./components/Register/Register.tsx";
 import Login from "./components/Login/Login.tsx";
 
 const router = createBrowserRouter([
@@ -13,6 +14,7 @@ const router = createBrowserRouter([
   { path: "/Overview", element: <Overview /> },
   { path: "/UserData", element: <UserData /> },
   { path: "/Form", element: <Form /> },
+  { path: "/Register", element: <Register /> },
   { path: "/Login", element: <Login /> },
 ]);
 

@@ -1,35 +1,43 @@
-import axios from "axios";
-import React, { useState } from "react";
+import React from "react";
+import NavBar from "../NavBar/NavBar";
 import { useForm, type FieldValues } from "react-hook-form";
-import { redirect } from "react-router-dom";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
-  const [error, setError] = useState("");
-  const onSubmit = async (user: FieldValues) => {
-    axios
-      .post("http://localhost:8000/users/", {
-        id: null,
-        username: user.user,
-        password: user.password,
-      })
-      .then(() => {
-        redirect("/");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label htmlFor="user">Username: </label>
-      <input {...register("user")} type="text" name="user" id="user" />
-      <br />
-      <label htmlFor="pw">Password: </label>
-      <input {...register("password")} type="password" name="pw" id="pw" />
-      <br />
-      <button type="submit">Login</button>
-    </form>
+    <>
+      <NavBar></NavBar>
+      <form className="form">
+        <div className="inputBundle">
+          <label htmlFor="user">Username</label>
+          <input
+            className="input"
+            {...register("user")}
+            type="text"
+            name="user"
+            id="user"
+            required
+            minLength={3}
+          />
+        </div>
+        <br />
+        <div className="inputBundle">
+          <label htmlFor="pw">Password</label>
+          <input
+            className="input"
+            {...register("password")}
+            type="password"
+            name="pw"
+            id="pw"
+            required
+          />
+        </div>
+        <br />
+        <button type="submit" className="btn">
+          Login
+        </button>
+      </form>
+    </>
   );
 };
 

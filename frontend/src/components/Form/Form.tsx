@@ -21,10 +21,11 @@ const Form = () => {
   return (
     <>
       <NavBar></NavBar>
-      <form onSubmit={handleSubmit(onSubmit)} action={"#"}>
-        <div>
+      <form onSubmit={handleSubmit(onSubmit)} action={"#"} className="form">
+        <div className="inputBundle">
           <label htmlFor="sleep_hours">Schlaf in Stunden </label>
           <input
+            className="input"
             {...register("sleep_hours")}
             type="number"
             step="0.05"
@@ -33,9 +34,11 @@ const Form = () => {
             required
           />
         </div>
-        <div>
+        <br />
+        <div className="inputBundle">
           <label htmlFor="steps">Anzahl Schritte </label>
           <input
+            className="input"
             {...register("steps")}
             type="number"
             id="steps"
@@ -43,11 +46,21 @@ const Form = () => {
             required
           />
         </div>
-        <div>
+        <br />
+        <div className="inputBundle">
           <label htmlFor="date">Datum </label>
-          <input {...register("date")} type="date" id="date" required />
+          <input
+            className="input"
+            {...register("date")}
+            type="date"
+            id="date"
+            required
+          />
         </div>
-        <button type="submit">submit</button>
+        <br />
+        <button className="btn" type="submit">
+          submit
+        </button>
         {error && <p>{error.toString()}</p>}
       </form>
     </>
