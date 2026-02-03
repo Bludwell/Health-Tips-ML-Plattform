@@ -1,14 +1,15 @@
 import React from "react";
 import NavBar from "../NavBar/NavBar";
 import { useForm, type FieldValues } from "react-hook-form";
+import "./Login.css";
 
 const Login = () => {
   const { register, handleSubmit } = useForm();
   return (
     <>
       <NavBar></NavBar>
-      <form className="form">
-        <div className="inputBundle">
+      <form className="form-container">
+        <div>
           <label htmlFor="user">Username</label>
           <input
             className="input"
@@ -21,7 +22,7 @@ const Login = () => {
           />
         </div>
         <br />
-        <div className="inputBundle">
+        <div>
           <label htmlFor="pw">Password</label>
           <input
             className="input"

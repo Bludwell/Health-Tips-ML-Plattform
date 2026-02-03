@@ -21,8 +21,12 @@ const Form = () => {
   return (
     <>
       <NavBar></NavBar>
-      <form onSubmit={handleSubmit(onSubmit)} action={"#"} className="form">
-        <div className="inputBundle">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        action={"#"}
+        className="form-container"
+      >
+        <div>
           <label htmlFor="sleep_hours">Schlaf in Stunden </label>
           <input
             className="input"
@@ -35,7 +39,7 @@ const Form = () => {
           />
         </div>
         <br />
-        <div className="inputBundle">
+        <div>
           <label htmlFor="steps">Anzahl Schritte </label>
           <input
             className="input"
@@ -47,7 +51,7 @@ const Form = () => {
           />
         </div>
         <br />
-        <div className="inputBundle">
+        <div>
           <label htmlFor="date">Datum </label>
           <input
             className="input"

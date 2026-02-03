@@ -56,5 +56,5 @@ archive.zip
 
 .codspeed
 *.db
-*.txt
+*steps*.txt
 *.ps1
