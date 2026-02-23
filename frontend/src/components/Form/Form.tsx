@@ -2,6 +2,7 @@ import axios from "axios";
 import { useForm, type FieldValues } from "react-hook-form";
 import React, { useState } from "react";
 import NavBar from "../NavBar/NavBar";
+import "./Form.css";
 
 const Form = () => {
   const { register, handleSubmit } = useForm();
@@ -11,9 +12,7 @@ const Form = () => {
     axios
       .post("http://localhost:8000/data/", {
         user_id: 1, //ERSETZEN!
-        sleep: Number(data.sleep_hours),
-        steps: Number(data.steps),
-        date: data.date,
+        text: data.health_text,
       })
       .then(() => window.location.reload())
       .catch((err) => setError(err));
@@ -27,40 +26,19 @@ const Form = () => {
         className="form-container"
       >
         <div>
-          <label htmlFor="sleep_hours">Schlaf in Stunden </label>
+          <label htmlFor="health_text">
+            Welche Probleme siehst du aktuell?
+          </label>
           <input
             className="input"
-            {...register("sleep_hours")}
-            type="number"
-            step="0.05"
-            id="sleep_hours"
-            min="0"
+            {...register("health_text")}
+            type="text"
+            id="health_text"
             required
+            size={1}
           />
         </div>
-        <br />
-        <div>
-          <label htmlFor="steps">Anzahl Schritte </label>
-          <input
-            className="input"
-            {...register("steps")}
-            type="number"
-            id="steps"
-            min="0"
-            required
-          />
-        </div>
-        <br />
-        <div>
-          <label htmlFor="date">Datum </label>
-          <input
-            className="input"
-            {...register("date")}
-            type="date"
-            id="date"
-            required
-          />
-        </div>
+
         <br />
         <button className="btn" type="submit">
           submit

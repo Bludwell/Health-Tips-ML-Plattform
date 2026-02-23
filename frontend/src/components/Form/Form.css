@@ -1,0 +1,12 @@
+#health_text{
+    resize: horizontal;
+    width: 200px;
+}
+
+#health_text:active{
+    width: auto;
+}
+
+#health_text:focus{
+    min-width: 200px;
+}

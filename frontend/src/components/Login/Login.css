@@ -4,6 +4,7 @@
   --font: #000;
   --accent: #FF5E5B;
   --shadow: 8px 8px 0px var(--primary);
+  --error: #a02323;
 }
 
 * {
@@ -46,7 +47,7 @@ label {
   color: var(--primary);
 }
 
-input {
+#user,#pw {
   width: 100%;
   padding: 12px 15px;
   border: 2px solid var(--primary);
@@ -57,7 +58,7 @@ input {
   color: #000;
 }
 
-input:focus {
+#user:focus,#pw:focus {
   box-shadow: 4px 4px 0px var(--primary);
 }
 
@@ -77,4 +78,8 @@ input:focus {
 .btn:hover {
   box-shadow: 4px 4px 0px var(--primary);
   transform: translate(-2px, -2px);
+}
+
+p{
+  color: var(--error);
 }

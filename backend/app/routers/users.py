@@ -4,34 +4,19 @@ from pydantic import BaseModel
 from typing import Annotated
 from sqlmodel import Field, Session, SQLModel, create_engine,select,UniqueConstraint
 from passlib.hash import pbkdf2_sha256
+from ..models import Users, ClearUsers,engine
 
 router = APIRouter(prefix="/users",tags=["users"])
+
+
 
 def hash_password(password):
     return pbkdf2_sha256.hash(password)
 
-class UsersBase(SQLModel):
-    id: int | None = Field(default=None, primary_key=True)
-    username: str = Field()
 
-class Users(UsersBase, table = True):
-    __table_args__ = (
-    UniqueConstraint("username", name="no_two_usernames"),
-    )
-    id: int | None = Field(default=None, primary_key=True)
-    username: str
-    password_hashed: str = Field()
 
-class CreateUsers(UsersBase):
-    password: str
-    
-
-engine = create_engine("sqlite:///health.db",echo=True)
-SQLModel.metadata.create_all(engine)
-
-@router.post("/")
-def create_user(user : CreateUsers):
-    print("gestartet")
+@router.post("/register/")
+def create_user(user : ClearUsers):
     hashed_pw = hash_password(user.password)
     with Session(engine) as session:
         extra_data = {"password_hashed": hashed_pw}
@@ -41,3 +26,18 @@ def create_user(user : CreateUsers):
         session.commit()
         session.refresh(db_user)
         return db_user
+@router.post("/login/")
+def check_user(user: ClearUsers):
+    with Session(engine) as session:
+        statement = select(Users).where(Users.username == user.username)
+        results = session.exec(statement)
+        if results:
+            for x in results:
+                print(x.password_hashed)
+                if pbkdf2_sha256.verify(user.password,x.password_hashed):
+                    print("success!")
+                else:
+                    raise HTTPException(status_code=401, detail="invalid credentials")
+        else:
+            raise HTTPException(status_code=401, detail="invalid credentials")
+            

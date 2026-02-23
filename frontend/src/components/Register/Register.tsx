@@ -11,10 +11,10 @@ const Register = () => {
   const onSubmit = async (user: FieldValues) => {
     if (user.pwCheck == user.pw) {
       axios
-        .post("http://localhost:8000/users/", {
+        .post("http://localhost:8000/users/register/", {
           id: null,
           username: user.user,
-          password: user.password,
+          password: user.pw,
         })
         .then(() => {
           redirect("/");
@@ -47,7 +47,7 @@ const Register = () => {
           <label htmlFor="pw">Password</label>
           <input
             className="input"
-            {...register("password")}
+            {...register("pw")}
             type="password"
             name="pw"
             id="pw"

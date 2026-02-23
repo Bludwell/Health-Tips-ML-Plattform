@@ -8,6 +8,7 @@ import UserData from "./components/UserData/UserData.tsx";
 import Form from "./components/Form/Form.tsx";
 import Register from "./components/Register/Register.tsx";
 import Login from "./components/Login/Login.tsx";
+import { AuthProvider } from "./context/AuthProvider.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -20,6 +21,8 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );
