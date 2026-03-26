@@ -1,71 +1,182 @@
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import useActivityData from "../../hooks/useActivityData";
-import type { ActivityData } from "../../hooks/useActivityData";
-import axios from "axios";
 import NavBar from "../NavBar/NavBar";
+import useActivityData from "../../hooks/useActivityData";
+import "./UserData.css";
+
+type Entry = {
+  id: number;
+  timestamp: string;
+  text: string;
+  predicted_label: string | null;
+  confirmed_label: string | null;
+};
+
+const ALL_LABELS = ["stress", "schlaf", "bewegung", "ernaehrung"];
+
+const labelNames: Record<string, string> = {
+  stress: "Stress",
+  schlaf: "Schlaf",
+  bewegung: "Bewegung",
+  ernaehrung: "Ernährung",
+};
 
 const UserData = () => {
-  //this should be API response data
-  const handleDelete = (id: number) => {
-    axios
-      .delete("http://localhost:8000/data/" + id)
-      .then(() => window.location.reload())
-      .catch((err) => console.error(err));
+  const { data, error, loading } = useActivityData();
+
+  const parseConfirmedLabels = (confirmedLabel: string | null): string[] => {
+    if (!confirmedLabel) return [];
+
+    try {
+      const parsed = JSON.parse(confirmedLabel);
+
+      if (Array.isArray(parsed)) return parsed;
+      if (Array.isArray(parsed.labels)) return parsed.labels;
+
+      return [];
+    } catch {
+      return [];
+    }
   };
-  const { data, error } = useActivityData();
+
+  const formatDate = (timestamp: string) => {
+    const date = new Date(timestamp);
+
+    if (Number.isNaN(date.getTime())) return timestamp;
+
+    return date.toLocaleDateString("de-DE", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    });
+  };
+
+  const entries: Entry[] = Array.isArray(data) ? data : [];
+
+  const sevenDaysAgo = new Date();
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+  const recentEntries = entries.filter((entry) => {
+    const entryDate = new Date(entry.timestamp);
+    return !Number.isNaN(entryDate.getTime()) && entryDate >= sevenDaysAgo;
+  });
+
+  const labelCounts = ALL_LABELS.reduce<Record<string, number>>(
+    (acc, label) => {
+      acc[label] = 0;
+      return acc;
+    },
+    {},
+  );
+
+  recentEntries.forEach((entry) => {
+    const labels = parseConfirmedLabels(entry.confirmed_label);
+    labels.forEach((label) => {
+      if (label in labelCounts) {
+        labelCounts[label] += 1;
+      }
+    });
+  });
+
+  const maxCount = Math.max(...Object.values(labelCounts), 1);
+
   return (
     <>
       <NavBar />
-      {error && <p>{error}</p>}{" "}
-      <TableContainer
-        component={Paper}
-        sx={{
-          maxWidth: 1300,
-          margin: "auto",
-          marginTop: "2rem",
-          backgroundColor: "#242424",
-        }}
-      >
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Date</TableCell>
-              <TableCell align="right">Steps</TableCell>
-              <TableCell align="right">Sleep (h)</TableCell>
-              <TableCell align="center">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((dp) => (
-              <TableRow
-                key={dp.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {dp.date}
-                </TableCell>
-                <TableCell align="right">{dp.steps}</TableCell>
-                <TableCell align="right">{dp.sleep}</TableCell>
-                <TableCell align="right" sx={{ width: "0px" }}>
-                  <button
-                    onClick={() => {
-                      handleDelete(dp.id);
-                    }}
-                  >
-                    delete
-                  </button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+
+      <div className="userdata-wrapper">
+        <div className="userdata-container">
+          <h1>Deine Einträge</h1>
+
+          {loading && <p>Lade Einträge...</p>}
+          {error && <p className="userdata-error">{error}</p>}
+
+          {!loading && !error && (
+            <>
+              <section className="summary-section">
+                <h2>Letzte 7 Tage</h2>
+                <p className="summary-text">
+                  In den letzten 7 Tagen:{" "}
+                  {ALL_LABELS.map((label) => (
+                    <span className="txt" key={label}>
+                      {labelNames[label]} {labelCounts[label]}×{" "}
+                    </span>
+                  ))}
+                </p>
+
+                <div className="trend-list">
+                  {ALL_LABELS.map((label) => (
+                    <div key={label} className="trend-item">
+                      <div className="trend-label-row">
+                        <span className="txt">{labelNames[label]}</span>
+                        <span className="txt">{labelCounts[label]}×</span>
+                      </div>
+
+                      <div className="trend-bar-bg">
+                        <div
+                          className="trend-bar-fill"
+                          style={{
+                            width: `${(labelCounts[label] / maxCount) * 100}%`,
+                          }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <section className="entries-section">
+                <h2>Alle Einträge</h2>
+
+                {entries.length === 0 ? (
+                  <p>Noch keine Einträge vorhanden.</p>
+                ) : (
+                  <div className="entry-list">
+                    {entries
+                      .slice()
+                      .sort(
+                        (a, b) =>
+                          new Date(b.timestamp).getTime() -
+                          new Date(a.timestamp).getTime(),
+                      )
+                      .map((entry) => {
+                        const confirmedLabels = parseConfirmedLabels(
+                          entry.confirmed_label,
+                        );
+
+                        return (
+                          <div key={entry.id} className="entry-card">
+                            <div className="entry-header">
+                              <span className="entry-date">
+                                {formatDate(entry.timestamp)}
+                              </span>
+                            </div>
+
+                            <div className="entry-body">
+                              <p className="entry-text">{entry.text}</p>
+
+                              <div className="label-chip-list">
+                                {confirmedLabels.length > 0 ? (
+                                  confirmedLabels.map((label) => (
+                                    <span key={label} className="label-chip">
+                                      {labelNames[label] || label}
+                                    </span>
+                                  ))
+                                ) : (
+                                  <span className="no-labels">
+                                    Keine bestätigten Labels
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                )}
+              </section>
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 };

@@ -1,33 +1,36 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Activity, useEffect, useState } from "react";
 
-export interface ActivityData {
+export type ActivityData = {
   id: number;
-  sleep: number;
-  date: string;
-  steps: number;
-}
-function compare(a: ActivityData, b: ActivityData) {
-  if (a.date < b.date) {
-    return -1;
-  }
-  if (a.date > b.date) {
-    return 1;
-  }
-  return 0;
-}
-const useActivityData = () => {
-const [data, setData] = useState<ActivityData[]>([]);
-const [error, setError] = useState("")
-  useEffect(() => {
-    axios.get<ActivityData[]>("http://localhost:8000/data/").then((res) => {
-      console.log("API RESPONSE:", res.data);
-      setData(res.data);
-    }).catch((err) => {setError(err)});
-  }, []);
-  data.sort(compare);
-  return {data,error};
-  };
+  user_id: number;
+  timestamp: string;
+  text: string;
+  predicted_label: string | null;
+  confirmed_label: string | null;
+};
 
+const useActivityData = () => {
+  const [data, setData] = useState<ActivityData[]>([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/entries", {
+        params: { user_id: 1 },
+      })
+      .then((res) => {
+        setData(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err?.response?.data?.detail || "Fehler beim Laden der Einträge");
+        setLoading(false);
+      });
+  }, []);
+
+  return { data, error, loading };
+};
 
 export default useActivityData;

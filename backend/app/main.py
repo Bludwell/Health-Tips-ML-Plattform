@@ -2,6 +2,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from .routers import data
 from .routers import users
+from .routers import predict
+from .routers import confirm
+from .routers import entries
+from . import recommendation
 
 
 app = FastAPI()
@@ -18,6 +22,9 @@ app.add_middleware(
 )
 app.include_router(data.router)
 app.include_router(users.router)
+app.include_router(predict.router)
+app.include_router(confirm.router)
+app.include_router(entries.router)
 
 @app.get("/")
 async def root():

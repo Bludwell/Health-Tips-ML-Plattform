@@ -40,7 +40,7 @@
   border-radius: 12px;
 }
 
-label {
+label,h1,h2,h3 {
   display: block;
   margin-bottom: 8px;
   font-weight: bold;
@@ -81,5 +81,5 @@ label {
 }
 
 p{
-  color: var(--error);
+  color: var(--font);
 }
