@@ -55,6 +55,6 @@ archive.zip
 .DS_Store
 
 .codspeed
-
+.db
 *steps*.txt
 *.ps1
