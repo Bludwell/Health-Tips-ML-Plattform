@@ -45,7 +45,7 @@ site_build
 venv
 docs.zip
 archive.zip
-
+.env
 # vim temporary files
 *~
 .*.sw?
@@ -55,6 +55,6 @@ archive.zip
 .DS_Store
 
 .codspeed
-*.db
+
 *steps*.txt
 *.ps1
