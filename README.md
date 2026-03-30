@@ -177,7 +177,6 @@ Diese Anwendung ist bewusst als **Proof of Concept** konzipiert und weist folgen
 * Lokale Datenhaltung (SQLite)
 * Teilweise hardcodierte Konfigurationen
 * ML-Modell basiert auf **synthetischen Trainingsdaten**
-* Keine Evaluation mit realen Nutzern
 
 Die Ergebnisse sind daher als **prototypische Annäherung** zu interpretieren und nicht als endgültige Lösung. 
 
