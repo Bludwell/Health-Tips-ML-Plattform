@@ -20,7 +20,6 @@ const Login = () => {
   }, [setFocus]);
   const onLogin: SubmitHandler<FieldValues> = (data, e) => {
     e?.preventDefault;
-    console.log(data);
     axios
       .post("http://localhost:8000/users/login/", {
         username: data.user,
@@ -28,8 +27,6 @@ const Login = () => {
       })
       .then((res) => {
         setStatus(res.data);
-        console.log("sent");
-        console.log(data);
       })
       .catch((err) => {
         console.error(err);

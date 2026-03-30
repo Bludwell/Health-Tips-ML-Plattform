@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .routers import data
 from .routers import users
 from .routers import predict
 from .routers import confirm
@@ -20,7 +19,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"]
 )
-app.include_router(data.router)
 app.include_router(users.router)
 app.include_router(predict.router)
 app.include_router(confirm.router)

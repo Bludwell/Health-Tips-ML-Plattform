@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useForm, type FieldValues } from "react-hook-form";
-import React, { useState } from "react";
+import { useState } from "react";
 import NavBar from "../NavBar/NavBar";
 import "./Form.css";
 
@@ -156,27 +156,35 @@ const Form = () => {
       <div className="form-wrapper">
         <div className="form-container">
           {view === "form" && (
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <div>
-                <label htmlFor="health_text">
-                  Welche Probleme siehst du aktuell?
-                </label>
-                <input
-                  className="input"
-                  {...register("health_text")}
-                  type="text"
-                  id="health_text"
-                  required
-                  size={1}
-                />
-              </div>
+            <>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div>
+                  <label htmlFor="health_text">
+                    Welche Probleme siehst du aktuell?
+                  </label>
+                  <p>
+                    Beschreibe deine Probleme und das System ordnet sie bis zu 4
+                    Problembereichen{" "}
+                    <strong>(Schlaf, Stress, Ernährung, Bewegung)</strong> zu!
+                  </p>
+                  <br></br>
+                  <input
+                    className="input"
+                    {...register("health_text")}
+                    type="text"
+                    id="health_text"
+                    required
+                    size={1}
+                  />
+                </div>
 
-              <br />
+                <br />
 
-              <button className="btn" type="submit" disabled={isAnalyzing}>
-                {isAnalyzing ? "Analyse läuft..." : "Analyse starten"}
-              </button>
-            </form>
+                <button className="btn" type="submit" disabled={isAnalyzing}>
+                  {isAnalyzing ? "Analyse läuft..." : "Analyse starten"}
+                </button>
+              </form>
+            </>
           )}
 
           {view === "result" && result && (
@@ -188,7 +196,8 @@ const Form = () => {
               </p>
 
               <h3>Geschätzte Problembereiche</h3>
-
+              <p>Prüfe selbst welche davon auf dich zutreffen könnten!</p>
+              <br />
               <div className="checkbox-list">
                 {Object.entries(editedLabels).map(([label, checked]) => (
                   <label key={label} className="checkbox-item">

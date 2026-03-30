@@ -22,8 +22,6 @@ const Register = () => {
         .catch((err) => {
           console.error(err);
         });
-    } else {
-      console.log("matcht nicht");
     }
   };
   return (
