@@ -221,6 +221,7 @@ Mögliche Weiterentwicklungen:
 
 Tim Roloff
 B. Sc. Informatik – Internationale Hochschule Duales Studium
+
 Die Entwicklung erfolgte ausschließlich durch mich. Mehrere Contributor im Repository ergeben sich aus unterschiedlichen Git-Konfigurationen auf verschiedenen Geräten.
 ---
 
